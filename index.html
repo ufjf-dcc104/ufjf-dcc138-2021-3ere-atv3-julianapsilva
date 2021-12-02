@@ -30,7 +30,13 @@
         let pose = 0
         let quadro = 0
         const POSES = [
-            7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 6, 6, 6, 6, 13, 13, 13, 13, 6
+            { qmax: 7, pv: 9 }, { qmax: 7, pv: 9 }, { qmax: 7, pv: 9 },
+            { qmax: 7, pv: 9 }, { qmax: 8, pv: 9 }, { qmax: 8, pv: 9 },
+            { qmax: 8, pv: 9 }, { qmax: 8, pv: 9 }, { qmax: 9, pv: 9 },
+            { qmax: 9, pv: 9 }, { qmax: 9, pv: 9 }, { qmax: 9, pv: 9 },
+            { qmax: 6, pv: 9 }, { qmax: 6, pv: 9 }, { qmax: 6, pv: 9 },
+            { qmax: 6, pv: 9 }, { qmax: 13, pv: 27 }, { qmax: 13, pv: 27 },
+            { qmax: 13, pv: 27 }, { qmax: 13, pv: 27 }, { qmax: 6, pv: 9 }
         ]
 
         function terminouDeCarregar() {
@@ -45,7 +51,7 @@
             dt = (t - t0) / 1000
             desenhaFundo()
 
-            quadro = (quadro >= POSES[pose] - 1) ? 0 : quadro + 9 * dt
+            quadro = (quadro >= POSES[pose].qmax - 1) ? 0 : quadro + POSES[pose].pv * dt
 
             ctx.drawImage(skelly,
                 //sx, sy, sw, sh
