@@ -14,9 +14,11 @@
 
     <script>
         const canvas = document.querySelector('canvas')
+        canvas.width = 500
+        canvas.height = 400
         const ctx = canvas.getContext('2d')
         const skelly = new Image()
-        skelly.src = "assets/skelly.png"
+        skelly.src = "assets/mask-group.png"
 
         skelly.addEventListener('load', terminouDeCarregar)
 
@@ -27,41 +29,39 @@
 
         let l = 2
         let c = 1
-        let pose = 0
+        let pose = 1
         let quadro = 0
+        let w
         const POSES = [
-            { qmax: 7, pv: 9 }, { qmax: 7, pv: 9 }, { qmax: 7, pv: 9 },
-            { qmax: 7, pv: 9 }, { qmax: 8, pv: 9 }, { qmax: 8, pv: 9 },
-            { qmax: 8, pv: 9 }, { qmax: 8, pv: 9 }, { qmax: 9, pv: 9 },
-            { qmax: 9, pv: 9 }, { qmax: 9, pv: 9 }, { qmax: 9, pv: 9 },
-            { qmax: 6, pv: 9 }, { qmax: 6, pv: 9 }, { qmax: 6, pv: 9 },
-            { qmax: 6, pv: 9 }, { qmax: 13, pv: 27 }, { qmax: 13, pv: 27 },
-            { qmax: 13, pv: 27 }, { qmax: 13, pv: 27 }, { qmax: 6, pv: 9 }
+            { qmax: 8, pv: 1, w: 76 },
+            { qmax: 9, pv: 1, w: 65 },
+            { qmax: 5, pv: 1, w: 115 },
         ]
 
-        function terminouDeCarregar() {
-
-        }
+        function terminouDeCarregar() { }
 
         let t0, dt
 
         requestAnimationFrame(passo)
         function passo(t) {
+
             t0 = t0 ?? t
             dt = (t - t0) / 1000
             desenhaFundo()
 
-            quadro = (quadro >= POSES[pose].qmax - 1) ? 0 : quadro + POSES[pose].pv * dt
+            for (let pose = 0; pose < 3; pose++) {
+                quadro = (quadro > POSES[pose].qmax) ? 0 : quadro + POSES[pose].pv * dt
+                w = POSES[pose].w
 
-            ctx.drawImage(skelly,
-                //sx, sy, sw, sh
-                Math.floor(quadro) * 64, pose * 64, 64, 64,
-                //dx, dy, dw, dh
-                0, 0, 64, 64)
+                ctx.drawImage(skelly,
+                    //sx, sy, sw, sh
+                    Math.floor(quadro) * w, pose * 115, w, 115,
+                    //dx, dy, dw, dh
+                    150, pose * 130, w, 115)
 
+            }
             requestAnimationFrame(passo)
             t0 = t
-
         }
 
 
